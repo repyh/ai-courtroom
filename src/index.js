@@ -18,7 +18,7 @@ async function startGame() {
     // await game.initGame();
 
     game.on("GAME_START", async () => {
-        console.log('matamu')
+        console.log('Initializing case...\n');
 
         // return console.log(game.sendMessage())
         game.messageAsJudge("You may now start the court by asking the player for their opening statement.");
