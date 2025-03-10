@@ -188,10 +188,10 @@ class Game extends Events {
         this.emit("REPLY_AS_DEFENDANT", JSON.parse(response));
     }
 
-    static async generateCase(requestedPrompt, caseType) {
+    static async generateCase(requestedPrompt, caseType, baseTopic) {
         const prompt = (
             requestedPrompt ??
-            `VARY THE RESPOND BELOW AND DO NOT BASE IT ON PREVIOUS HISTORY, CHANGE THE RESPONSE EVERY CALL. DO NOT RESPOND WITH ANYTHING OTHER THAN PROPERLY FORMATTED JSON. DO NOT ADD ANY OTHER FIELD OTHER THAN THE ONE PROVIDED BELOW. generate a sample ${caseType} case (RANDOM AND VARY YOUR RESPONSES) court case for a game in a format of below (the case should be able to be concluded with the information generated) MAKE SURE THE HIDDENDETAILS CAN BE REVEALED/CONCLUDED BASED ON OTHER AVAILABLE DETAILS SUCH AS PLAINTIFF DETAIL, DEFENDANT DETAIL, FACTS, EVIDENCE, AND REGULAR DETAILS:`
+            `VARY THE RESPOND BELOW AND DO NOT BASE IT ON PREVIOUS HISTORY, CHANGE THE RESPONSE EVERY CALL. DO NOT RESPOND WITH ANYTHING OTHER THAN PROPERLY FORMATTED JSON. DO NOT ADD ANY OTHER FIELD OTHER THAN THE ONE PROVIDED BELOW. generate a sample ${caseType} on a topic of: ${baseTopic} \ncase (RANDOM AND VARY YOUR RESPONSES) court case for a game in a format of below (the case should be able to be concluded with the information generated) MAKE SURE THE HIDDENDETAILS CAN BE REVEALED/CONCLUDED BASED ON OTHER AVAILABLE DETAILS SUCH AS PLAINTIFF DETAIL, DEFENDANT DETAIL, FACTS, EVIDENCE, AND REGULAR DETAILS:`
         );
 
         const genAI = new GoogleGenerativeAI(process.env.AI_API);

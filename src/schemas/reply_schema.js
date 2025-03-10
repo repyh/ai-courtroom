@@ -5,20 +5,20 @@ const replySchema = {
     properties: {
         asRole: {
             type: SchemaType.STRING,
-            description: "role of the person AI is replying as. IF THE DEFENDANT/PLAINTIFF WERE CALLED TO THE STAND, YOU MAY USE LABEL DEFENDANT/WITNESS AND NOT AS WITNESS.",
+            description: "The role of the person AI is replying as. If the DEFENDANT or PLAINTIFF is called to the stand, use 'DEFENDANT' or 'PLAINTIFF' instead of 'WITNESS'.",
             enum: ["JUDGE", "PLAINTIFF", "DEFENDANT", "WITNESS", "OPPONENT_LAWYER"]
         },
         whereName: {
             type: SchemaType.STRING,
-            description: "Name of the person AI is replying as. YOU MAY CALL THE PLAYER/OPPONENT LAWYER AS 'DEFENSE/PLAINTIFF LAWYER' according to the situation"
+            description: "The name of the person AI is replying as. Use 'Opposing Counsel' or 'Mr./Ms./Mrs. [EXPLICIT WITNESS NAME]' or 'Judge' or 'Mr./Ms./Mrs. [EXPLICIT DEFENDANT NAME]' or 'Mr./Ms./Mrs. [EXPLICIT WITNESS NAME]' depending on the context where applicable. ALL IN **PROPERCASE**."
         },
         reply: {
             type: SchemaType.STRING,
-            description: "Content of the reply that the AI is to answer: REPLY IN FIRST PERSON ACCORDING TO THE ROLE. YOU MAY REFER TO THE PLAYER/OPPONENT LAWYER AS 'DEFENSE/PLAINTIFF LAWYER' according to the situation"
+            description: "The content of the reply, formatted in the **first person** according to the role. Always refer to the player as 'Player' appropriately."
         },
         eventToEmit: {
             type: SchemaType.STRING,
-            description: "NEXT LOGICAL COURSE OF ACTION TO EMIT AFTER THE PRESENTED PROMPT. YOU MAY EXCLUSIVELY USE CALL_PLAYER EVENT IF THE JUDGE OR ANYONE IS ASKING THE PLAYERR OR THE DEFENDANT/PLAINTIFF LAWYER (ACCORDING TO THE CONTEXT), YOU MAY NOT CALL THIS EVENT FOR ASKING THE WITNESS/DEFENDANT/PLAINTIFF BECAUSE THE PLAYER IS NOT ACTING AS THOSE.",
+            description: "The next logical action to be taken. Use 'CALL_PLAYER' only when directly requesting input from the player's character (the lawyer). Do not use this event when calling the WITNESS, DEFENDANT, or PLAINTIFF.",
             enum: [
                 "CALL_PLAYER",
                 "CALL_OPPONENT_LAWYER",
@@ -35,10 +35,20 @@ const replySchema = {
         },
         relatedPeopleName: {
             type: SchemaType.STRING,
-            description: "Name of the person related to the reply. FOR EXAMPLE THE PLAINTIFF'S NAME OR THE DEFENDANT'S NAME OR ONE OF THE WITNESS' NAME. e.g: louis harding (member of witness)"
+            description: "The name of the person relevant to the reply (e.g., the plaintiff's, defendant's, or a witness' name). Example: 'Louis Harding' (a witness)."
+        },
+        verdict: {
+            type: SchemaType.STRING,
+            description: "The verdict of the court proceeding. YOU ARE TO USE THIS FIELD ONLY WHEN THE EVENT TO EMIT IS 'END_COURT'. USE THE APPROPRIATE RESPONSE ACCORDING TO THE **ARGUMENTS** and **EVIDENCE** PROVIDED.",
+            enum: [
+                "PLAINTIFF_WIN",
+                "DEFENDANT_WIN",
+                "NO_CONCLUSION",
+                "COURT_IN_PROGRESS"
+            ]
         }
     },
     required: ["asRole", "whereName", "reply", "eventToEmit", "relatedPeopleName"]
-}
+};
 
 export default replySchema;

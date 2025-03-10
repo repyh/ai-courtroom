@@ -1,13 +1,20 @@
 import Game from "./classes/Game.js";
 import handleReplyEvent from "./functions/reply_event.js";
 import handleAIEvent from "./functions/ai_event.js";
+import caseTopics from "./database/case/topics.json" with { type: 'json' };
 import dotenv from 'dotenv';
 import fs from 'fs';
 
 dotenv.config();
 
 async function startGame() {
-    const gameCase = await Game.generateCase();
+    const caseTypes = ["CRIMINAL", "CIVIL", "DIVORCE", "APPEAL"];
+
+    const chosenType = caseTypes[Math.floor(Math.random() * caseTypes.length)];
+    const chosenTopic = caseTopics[chosenType][Math.floor(Math.random() * caseTopics[chosenType].length)];
+    console.log("Chosen topic:", chosenTopic);
+
+    const gameCase = await Game.generateCase(null, caseTypes, chosenTopic);
     fs.writeFileSync('./sample.json', JSON.stringify(gameCase, null, 4));
 
     const game = new Game({
