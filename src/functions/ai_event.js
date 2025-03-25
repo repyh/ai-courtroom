@@ -55,7 +55,7 @@ function handleAIEvent(game) {
 
     game.on("game:DISMISS_WITNESS", async (payload) => {
         await sleep(3000);
-        game.messageAsJudge("You have dismissed the defendant, you may now continue according to the flow of the court. DO NOT REPLY WITH THE PREVIOUS REQUEST. PREVIOUS REQUEST: " + JSON.stringify(payload.reply))
+        game.messageAsJudge("You have dismissed the witness, you may now continue according to the flow of the court. DO NOT REPLY WITH THE PREVIOUS REQUEST. PREVIOUS REQUEST: " + JSON.stringify(payload.reply))
     })
 
     game.on("game:END_COURT", async (payload) => {
